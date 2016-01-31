@@ -28,8 +28,8 @@ This file is part of AYAB.
 
 //#define DBG_NOMACHINE  // Turn on to use DBG_BTN as EOL Trigger
 
-#define KH910
-//#define KH930
+//#define KH910
+#define KH930
 
 // Should be calibrated to each device
 // These values are for the K carriage
@@ -39,13 +39,19 @@ This file is part of AYAB.
     #define FILTER_R_MIN 200
     #define FILTER_R_MAX 1023
 #endif
-#ifdef KH930
+#ifdef KH930 // KH270
     #define FILTER_L_MIN 200 // below: L Carriage
     #define FILTER_L_MAX 600 // above: K Carriage
     #define FILTER_R_MIN 0
     #define FILTER_R_MAX 600
 #endif
 
+/*
+ *  Small connectors other way round
+ *  No Sensor: 344 347
+ *  Left:      772 346 (both magnets)
+ *  Right:     344 760 (both magnets)
+ */
 
 /*
  * END OF USERSETTINGS
@@ -77,13 +83,13 @@ This file is part of AYAB.
 #define DBG_BTN_PIN 7   // DEBUG BUTTON
 
 // Machine constants
-#define NUM_NEEDLES    200
+#define NUM_NEEDLES    114
 #define END_LEFT       0
-#define END_RIGHT      255
-#define START_OFFSET_L 40
-#define START_OFFSET_R 16
-#define END_OF_LINE_OFFSET_L 32
-#define END_OF_LINE_OFFSET_R 12
+#define END_RIGHT      140  // \todo check here for KH270
+#define START_OFFSET_L 14 //26 //original value: 40
+#define START_OFFSET_R 2 //14 //original value 16
+#define END_OF_LINE_OFFSET_L 6
+#define END_OF_LINE_OFFSET_R 6
 
 // Typedefs
 #define uint16 unsigned int

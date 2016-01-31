@@ -67,10 +67,64 @@ void Solenoids::init(void)
   // No Action needed for SOFT_I2C
 }
 
+
+/*
+ * KH-270 Matching
+ *  1   -
+ *  2   -
+ *  3   -
+ *  4   1
+ *  5   2
+ *  6   3
+ *  7   4
+ *  8   5
+ *
+ *  9   6
+ * 10   7
+ * 11   8
+ * 12   9
+ * 13  10
+ * 14  11
+ * 15  12
+ * 16   -
+ */
+
+// green
+ // 0,1,2 - nope
+ // 3 links -> 7
+ // 3 rechts -> 1
+ // 4 links -> 8
+ // 4 rechts -> 2
+ // 5 links -> 9
+ // 5 rechts -> 3
+ // 6 links -> 10
+ // 6 rechts -> 4
+ // 7 links -> 11
+ // 7 rechts -> 5
+ // 8 links -> 12
+ // 8 rechts -> 6
+ // 9 links -> 13
+ // 9 rechts -> 7
+ // 10 links -> 14
+ // 10 rechts -> 8
+ // 11 l -> 15
+ // 11 r -> 9
+ // 12 l 16
+ // 12 r 10
+ // 13 l 17
+ // 13 r 11
+ // 14 l 18
+ // 14 r 12
+ 
+
+
 void Solenoids::setSolenoid( byte solenoid, bool state )
 { 	
-	if( solenoid >= 0 && solenoid <= 15 )
+	//if( solenoid >= 0 && solenoid <= 15 )
+  if(solenoid >= 0 && solenoid <= 11)
 	{ 
+    solenoid = solenoid + 3;  // KH 270 solenoid mapping
+
 		if( state )
 		{
 			bitSet(solenoidState, solenoid);
@@ -87,7 +141,7 @@ void Solenoids::setSolenoid( byte solenoid, bool state )
 
 void Solenoids::setSolenoids( uint16 state )
 {
-	solenoidState = state;
+	solenoidState = state << 3; // KH 270 solenoid mapping
 	write( state );
 }
 

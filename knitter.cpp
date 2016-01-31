@@ -226,11 +226,11 @@ void Knitter::state_operate()
 			return;
 		}
 
-
+		//indState(true);
 		if( (m_pixelToSet >= m_startNeedle-END_OF_LINE_OFFSET_L)
 				&& (m_pixelToSet <= m_stopNeedle+END_OF_LINE_OFFSET_R)) // TODO ADD OFFSET
 		{	// When inside the active needles
-			//digitalWrite(LED_PIN_B, 1);
+			digitalWrite(LED_PIN_B, 1);
 			_workedOnLine = true;
 
 			// Find the right byte from the currentLine array,
@@ -243,7 +243,7 @@ void Knitter::state_operate()
 		}
 		else
 		{	// Outside of the active needles
-			//digitalWrite(LED_PIN_B, 0);
+			digitalWrite(LED_PIN_B, 0);
 			
 			// Reset Solenoids when out of range
 			m_solenoids.setSolenoid( m_solenoidToSet, true);
@@ -310,6 +310,7 @@ bool Knitter::calculatePixelAndSolenoid()
 			{ 
 				m_pixelToSet = m_position - START_OFFSET_L;
 				
+				/*
 				if ( Regular == m_beltshift )
 				{
 					m_solenoidToSet = m_position % 16;
@@ -318,11 +319,17 @@ bool Knitter::calculatePixelAndSolenoid()
 				{
 					m_solenoidToSet = (m_position-8) % 16;
 				}
+				*/
+
+				// \todo Check
+				m_solenoidToSet = m_position % 12;
 				
+				/*
 				if ( L == m_carriage )
 				{
 					m_pixelToSet = m_pixelToSet + 8;
 				}
+				*/
 			}
 			else
 			{
@@ -335,6 +342,7 @@ bool Knitter::calculatePixelAndSolenoid()
 			{ 
 				m_pixelToSet = m_position - START_OFFSET_R;
 				
+				/*
 				if ( Regular == m_beltshift )
 				{
 					m_solenoidToSet = (m_position+8) % 16;
@@ -343,11 +351,17 @@ bool Knitter::calculatePixelAndSolenoid()
 				{
 					m_solenoidToSet = m_position % 16;
 				}
+				*/
+
+				// \todo Check
+				m_solenoidToSet = (m_position+6) % 12;
 				
+				/*
 				if ( L == m_carriage )
 				{
 					m_pixelToSet = m_pixelToSet - 16;
 				}
+				*/
 			}
 			else
 			{

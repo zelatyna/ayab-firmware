@@ -100,7 +100,7 @@ void Encoders::encA_rising()
         { digitalWrite(LED_PIN_B, 0); }
 
       // Known position of the carriage -> overwrite position
-      m_encoderPos = END_LEFT + 28;
+      m_encoderPos = END_LEFT + 14;
       }
 	}
 }
@@ -128,7 +128,7 @@ void Encoders::encA_falling()
 	      m_beltShift = digitalRead(ENC_PIN_C) ? Shifted : Regular;
 
          // Known position of the carriage -> overwrite position
-         m_encoderPos = END_RIGHT - 28;
+         m_encoderPos = END_RIGHT - 14;
       }
    }
 }
