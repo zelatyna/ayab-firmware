@@ -31,7 +31,9 @@ public:
 
   void encA_interrupt();
 
-	byte 			getPosition();
+  void setMachineType(byte);
+
+	byte 			    getPosition();
 	Beltshift_t 	getBeltshift();
 	Direction_t 	getDirection();
   Direction_t   getHallActive();
@@ -44,7 +46,12 @@ private:
   Direction_t   m_hallActive;
 	Beltshift_t 	m_beltShift;
   Carriage_t    m_carriage;
-	byte   m_encoderPos;
+	byte          m_encoderPos;
+
+  unsigned int m_filter_l_min;
+  unsigned int m_filter_l_max;
+  unsigned int m_filter_r_min;
+  unsigned int m_filter_r_max;
 
   void encA_rising();
   void encA_falling();

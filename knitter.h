@@ -37,10 +37,11 @@ public:
 
 	void isr();
 	void fsm();
-	bool startOperation(byte startNeedle,
-						byte stopNeedle,
-						byte (*line));
-    bool startTest(void);
+	bool startOperation(byte machineType,
+                      byte startNeedle,
+						          byte stopNeedle,
+						          byte (*line));
+  bool startTest(void);
 	bool setNextLine(byte lineNumber);
 	void setLastLine();
 
@@ -75,12 +76,12 @@ private:
 	void state_init();
 	void state_ready();
 	void state_operate();
-    void state_test();
+  void state_test();
 
 	bool calculatePixelAndSolenoid();
 
 	void reqLine( byte lineNumber );
-    void indState( bool initState = false);
+  void indState( bool initState = false);
 };
 
 

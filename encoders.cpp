@@ -78,13 +78,13 @@ void Encoders::encA_rising()
       }
 
 		uint16 hallValue = analogRead(EOL_PIN_L);
-		if( hallValue < FILTER_L_MIN || 
-			hallValue > FILTER_L_MAX)
+		if( hallValue < m_filter_l_min || 
+			hallValue > m_filter_l_max)
 		{ 
       m_hallActive = Left;
 
       // Belt shift signal only decided in front of hall sensor
-      if( hallValue < FILTER_L_MIN )
+      if( hallValue < m_filter_l_min )
       { // L carriage
         m_carriage = L;
       }
@@ -117,8 +117,8 @@ void Encoders::encA_falling()
       }
 		
       uint16 hallValue = analogRead(EOL_PIN_R);
-		if( hallValue < FILTER_R_MIN || 
-			hallValue > FILTER_R_MAX)
+		if( hallValue < m_filter_r_min || 
+			hallValue > m_filter_r_max)
 		{ 
          m_hallActive = Right;
 
@@ -133,18 +133,40 @@ void Encoders::encA_falling()
    }
 }
 
+void Encoders::setMachineType(byte pMachineType)
+{
+  switch(pMachineType)
+  {
+    // KH-910, KH-950(i)
+    case machine_type_kh910:
+      m_filter_l_min = 200; // below: L Carriage
+      m_filter_l_max = 600; // above: K Carriage
+      m_filter_r_min = 200;
+      m_filter_r_max = 1023;
+      break;
+    // KH-900, KH-930, KH-965(i), CK-35
+    case machine_type_kh930:
+      m_filter_l_min = 200; // below: L Carriage
+      m_filter_l_max = 600; // above: K Carriage
+      m_filter_r_min = 0;
+      m_filter_r_max = 600;
+      break;
+    case machine_type_kh270:
+    break;
+    default:
+    break;
+  }
+}
 
 byte Encoders::getPosition()
 {
 	return m_encoderPos;
 }
 
-
 Beltshift_t Encoders::getBeltshift()
 {
 	return m_beltShift;
 }
-
 
 Direction_t Encoders::getDirection()
 {

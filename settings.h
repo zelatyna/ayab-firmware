@@ -28,33 +28,14 @@ This file is part of AYAB.
 
 //#define DBG_NOMACHINE  // Turn on to use DBG_BTN as EOL Trigger
 
-#define KH910
-//#define KH930
-
-// Should be calibrated to each device
-// These values are for the K carriage
-#ifdef KH910
-    #define FILTER_L_MIN 200 // below: L Carriage
-    #define FILTER_L_MAX 600 // above: K Carriage
-    #define FILTER_R_MIN 200
-    #define FILTER_R_MAX 1023
-#endif
-#ifdef KH930
-    #define FILTER_L_MIN 200 // below: L Carriage
-    #define FILTER_L_MAX 600 // above: K Carriage
-    #define FILTER_R_MIN 0
-    #define FILTER_R_MAX 600
-#endif
-
-
 /*
  * END OF USERSETTINGS
  */
 
 // DO NOT TOUCH
 #define FW_VERSION_MAJ 0
-#define FW_VERSION_MIN 80
-#define API_VERSION 4 // for message description, see below
+#define FW_VERSION_MIN 90
+#define API_VERSION 5 // for message description, see below
 
 #define SERIAL_BAUDRATE 115200
 
@@ -88,6 +69,14 @@ This file is part of AYAB.
 // Typedefs
 #define uint16 unsigned int
 
+typedef enum MACHINE_TYPE{
+    none               = 0,
+    machine_type_kh910 = 1,
+    machine_type_kh930 = 2,
+    machine_type_kh270 = 3,
+    machine_type_diag  = 0xFF
+} MACHINE_TYPE_t;
+
 typedef enum AYAB_API{
     reqStart_msgid    = 0x01,
     cnfStart_msgid    = 0xC1,
@@ -95,8 +84,6 @@ typedef enum AYAB_API{
     cnfLine_msgid     = 0x42,
     reqInfo_msgid     = 0x03,
     cnfInfo_msgid     = 0xC3,
-    reqTest_msgid     = 0x04,
-    cnfTest_msgid     = 0xC4,
     indState_msgid    = 0x84,
     debug_msgid       = 0xFF
 } AYAB_API_t;
@@ -109,14 +96,14 @@ typedef enum Direction{
 
 typedef enum Carriage{
     NoCarriage = 0,
-    K        = 1,
-    L        = 2
+    K          = 1,
+    L          = 2
 } Carriage_t;
 
 typedef enum Beltshift{
-	Unknown     = 0,
-	Regular 	= 1, 
-	Shifted   	= 2,
+	Unknown      = 0,
+	Regular 	 = 1, 
+	Shifted   	 = 2,
     Lace_Regular = 3,
     Lace_Shifted = 4
 } Beltshift_t;

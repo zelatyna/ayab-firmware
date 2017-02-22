@@ -69,10 +69,13 @@ void Knitter::fsm()
 	}
 }
 
-bool Knitter::startOperation(byte startNeedle, 
-							byte stopNeedle, 
-							byte (*line))
+bool Knitter::startOperation(byte machineType,
+														 byte startNeedle, 
+														 byte stopNeedle, 
+														 byte (*line))
 {
+	m_encoders.setMachineType(machineType);
+
 	if( startNeedle >= 0 
 		&& stopNeedle < NUM_NEEDLES
 		&& startNeedle < stopNeedle)

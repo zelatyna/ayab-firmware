@@ -56,21 +56,40 @@ void isr_encA()
  */
  void h_reqStart()
  {
+  bool _success = false;
+
   delay(50); //DEBUG wait for data to arrive
+  byte _machineType = Serial.read();
   byte _startNeedle = Serial.read();
   byte _stopNeedle  = Serial.read();
   
-  // TODO verify operation
-  //memset(lineBuffer,0,sizeof(lineBuffer));
-  // temporary solution
-  for( int i = 0; i < 25; i++)
+  // Assign correct hall sensor filter
+  // values depending on machine type
+  switch (_machineType)
   {
-    lineBuffer[i] = 0xFF;
-  }  
+    case machine_type_kh910:
+    case machine_type_kh930:
+    case machine_type_kh270:
+      // TODO verify operation
+      //memset(lineBuffer,0,sizeof(lineBuffer));
+      // temporary solution
+      for( int i = 0; i < 25; i++)
+      {
+        lineBuffer[i] = 0xFF;
+      } 
+      _success = knitter->startOperation(_machineType,
+                                         _startNeedle, 
+                                         _stopNeedle, 
+                                         &(lineBuffer[0]));
+      break;
+    case machine_type_diag:
+      _success = knitter->startTest();
+      break;
+    default:
+      _success = false;
+    break;
+  }
 
-  bool _success = knitter->startOperation(_startNeedle, 
-                                          _stopNeedle, 
-                                          &(lineBuffer[0]));
   Serial.write(cnfStart_msgid);
   Serial.write(_success);
   Serial.println("");
@@ -114,14 +133,6 @@ void isr_encA()
   Serial.write(FW_VERSION_MAJ);
   Serial.write(FW_VERSION_MIN);
   Serial.println("");
- }
-
- void h_reqTest()
- {
-    bool _success = knitter->startTest();
-    Serial.write(cnfTest_msgid);
-    Serial.write(_success);
-    Serial.println("");
  }
 
 
@@ -175,10 +186,6 @@ void loop() {
 
       case reqInfo_msgid:
         h_reqInfo();
-        break;
-
-      case reqTest_msgid:
-        h_reqTest();
         break;
 
       default:
