@@ -30,6 +30,11 @@ To set up a working development environment follow these steps:
     git clone --recurse-submodules https://github.com/AllYarnsAreBeautiful/ayab-firmware.git ayab
     ```
 
+    > **_NOTE:_**  If you checkout to a non master branch you need to update submodules again
+    ```bash
+    git submodule update --init --recursive
+    ```
+
  2. The AYAB firmware uses [PlatformIO](https://platform.io/) to build the binaries.
     Please [download the PlatformIO plugin](https://platformio.org/install/integration) for your favorite IDE, i.e. VSCode.
     Then, open the ayab-firmware project and hit Build and/or Upload to compile and upload to hardware.
